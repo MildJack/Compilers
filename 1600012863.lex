@@ -1,16 +1,14 @@
 %{
-#include <stdlib.h>
-#include "y.tab.h"
-extern int yyerror(const char *);
-%} 
+#include <stdio.h>
+%}
 
 %%
-[" "; \t]           { }
-(0(\.[0-9]+)?)|([1-9][0-9]*(\.[0-9]+)?)     { yylval.dv = strtod(yytext,0);return NUMBER;}  
-[a-zA-Z]                                    { yylval.cv = *yytext;  return CHARA;} 
 
-[-+*/()^%~!=\n]     {return *yytext;}
+[\n] { printf("new line\n"); }
+[0-9]+ { printf("int: %d\n", atoi(yytext)); }
+[0-9]*\.[0-9]+ { printf("float: %f\n", atof(yytext)); }
+[a-zA-Z][a-zA-Z0-9]* { printf("var: %s\n", yytext); }
+[\+\-\*\/\%] { printf("op: %s\n", yytext); }
+. { printf("unknown: %c\n", yytext[0]); }
+
 %%
-int yywrap(){    
-    return 1;
-}
