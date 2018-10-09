@@ -4,6 +4,7 @@
 int yyparse(void);
 void yyerror(char* s);
 int yywrap();
+int yylex();
 %}
 %token  NUMBER ADD MINUS MULT DEVIDE LBRA RBRA
 
