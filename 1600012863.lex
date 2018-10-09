@@ -18,7 +18,7 @@ rbra    [)]
 %%
 
 {ws}      {}
-{number}  {return NUMBER;}
+{number}  {sscanf(yytext, "%d", &yylval); return NUMBER;}
 {add}     {return ADD;}
 {minus}   {return MINUS;}
 {mult}    {return MULT;}
