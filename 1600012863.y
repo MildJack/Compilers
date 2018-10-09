@@ -3,7 +3,7 @@
 #include "lex.yy.c"
 #define YYSTYPE int
 int yyparse(void);
-%}
+%} 
 %token INTEGER PLUS MINUS TIMES DIVIDE LP RP
 %%
 command : exp {printf("%d/n",$1);}
