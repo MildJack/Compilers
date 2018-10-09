@@ -18,7 +18,7 @@ term  :   term   MULT    factor  { $$ = $1 * $3; }
       |   factor                 { $$ = $1; }
       ;
 factor:   NUMBER                 { $$ = $1; }
-      |   LBRA   expr    rbra    { $$ = $2; }
+      |   LBRA   expr    RBRA    { $$ = $2; }
       ;
 
 %%
