@@ -13,6 +13,6 @@
 
 %%
 
-int yywrap(){    
-    return 1;
+int yywarp(){
+    return 1;
 }
