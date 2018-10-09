@@ -12,7 +12,3 @@
 . { printf("unknown: %c\n", yytext[0]); }
 
 %%
-
-int yywarp(){
-    return 1;
-}
