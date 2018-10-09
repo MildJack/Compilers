@@ -1,5 +1,4 @@
 %{
-#define Pi 3.14159265358979
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -27,16 +26,10 @@ int flag=1;
 }
 %token DROP HELP CLEAR LIST ERASE
 %token '+' '-' '*' '/' '^' '%' '`' '~' '!' '='
-%token COS SIN TAN OR AND PP SS LOR LOL COT or and
-%token LOG
 
 %left '='
 %left '+' '-'
 %left '*' '/' '%'
-%left AND OR and or
-%left COS SIN TAN LOG PP SS LOR LOL COT
-%left '^'
-%left '~' '!'
 %right '(' ')'
 
 %%
@@ -69,97 +62,15 @@ stat   :
 
       expr    :
               NUMBER        { $$ = $1; }
-              | ANS         { $$ = last; }
-              | CHARA
-                      {
-                      if(islower($1))
-                   i = $1 - 'a';
-                           else
-                    i = $1 - 'A';
-                    $$ = vars[i];
-                }
         | expr '+' expr  { $$ = $1 + $3; }
         | expr '-' expr  { $$ = $1 - $3; }
         | expr '*' expr  { $$ = $1 * $3; }
         | expr '/' expr  { $$ = $1 / $3; }
         | expr '^' expr  { $$ = pow($1, $3);}
-        | '~' expr   {
-                   $$=~(int)$2;
-             }
-             | '!' expr   {
-                if(!(int)$2)
-                 printf("true\n");
-                else
-                printf("false\n");
-                 flag=0;
-             }
-             | expr '%' expr  { $$ = (int)$1 % (int)$3; }
+        | expr '%' expr  { $$ = (int)$1 % (int)$3; }
         | '-' expr    { $$ = -$2; }
-            | '(' expr ')'  { $$ = $2; }
-            | COS expr  { $$ = cos($2 * Pi /180); }
-        | SIN expr  { $$ = sin($2 * Pi /180); }
-        | TAN expr  { $$ = tan($2 * Pi /180); }
-        | COT expr  { $$ =1/sin($2 * Pi /180);}
-        | expr LOG expr     { $$ = log($1)/log($3); }
-        | expr AND expr {
-        printf("与前的二进制($1):\n");
-                             convert($1,2);
-                             printf("\n");
-                                  printf("与前的二进制($3):\n");
-                                          convert($3,2);
-                                          printf("\n");
-                                   $$=(int)$1&(int)$3;
-                                   printf("结果的二进制($$):\n");
-                                   convert($$,2);
-                            printf("\n");
-                            }
-                  | expr OR  expr {
-                                       printf("或前的二进制($1):\n");
-                                       convert($1,2);
-                            printf("\n");
-                            printf("或前的二进制($3):\n");
-                            convert($3,2);
-                     printf("\n");
-                     $$ =(int)$1|(int)$3;
-                     printf("结果的二进制($$):\n");
-                            convert($$,2);
-                            printf("\n");
-                            }
-                    | expr and expr {
-                        if( (int)$1 && (int)$3)
-                          printf("true\n");
-                          else
-                        printf("false\n");
-                               flag=0;
-                      }
-                      | expr or  expr {
-                    if( (int)$1 || (int)$3)
-                                      printf("true\n");
-                                      else
-                                                    printf("false\n");
-                                  flag=0;
-                                  }
-                    | expr PP   {   $$ =$1+1;}
-                    | expr SS   {   $$ =$1-1;}
-                    | expr LOL expr {
-                            printf("移位前的二进制:");
-                            convert($1,2);
-                            printf("\n");
-                                  $$ =(int)$1<<(int)$3;
-                                  printf("移位后的二进制:");
-                                  convert($$,2);
-                                        printf("\n");
-                                    }
-                                    | expr LOR expr {
-                                      printf("移位前的二进制:");
-                                      convert($1,2);
-                                      printf("\n");
-                                        $$ =(int)$1>>(int)$3;
-                                        printf("移位后的二进制:");
-                                        convert($$,2);
-                                      printf("\n");
-                                  }
-                                  ;
+        | '(' expr ')'  { $$ = $2; }
+          ;
       cmdline :  DROP  { exit(0);}
               |  CLEAR  {
               system("clear");
